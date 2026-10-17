@@ -1,0 +1,116 @@
+/* Same Nocturne tokens as podor.org. Layout: one narrow left-aligned column, sites as a plain ruled list. */
+:root {
+  --bg: #0f101c;
+  --text: #e9e9ed;
+  --muted: #9397ab;
+  --faint: #75798c;
+  --rule: #2a2c3a;
+  --accent: #9184d9;
+  --accent-soft: #d2cefd;
+
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+a { color: inherit; text-decoration: none; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+.wrap {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+
+/* — header — */
+.site-header {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 22px max(20px, env(safe-area-inset-right, 0px)) 22px max(20px, env(safe-area-inset-left, 0px));
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--muted);
+}
+.crumbs { display: flex; gap: 10px; align-items: center; }
+.brand { color: var(--text); }
+.sep { color: var(--faint); }
+.site-header a:hover { color: var(--accent); }
+
+/* — intro — */
+.intro { padding-block: 72px 40px; }
+.intro h1 {
+  margin: 0 0 12px;
+  font-weight: 500; font-size: 44px; line-height: 1.1; letter-spacing: -.015em;
+}
+.intro p { margin: 0; max-width: 52ch; color: var(--muted); }
+
+/* — category filter — */
+.filters {
+  display: flex; flex-wrap: wrap; gap: 6px 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+}
+.filters button {
+  appearance: none; background: none; border: 0; padding: 4px 0; cursor: pointer;
+  font: inherit; letter-spacing: inherit; text-transform: inherit;
+  color: var(--faint);
+  border-bottom: 1px solid transparent;
+}
+.filters button:hover { color: var(--text); }
+.filters button[aria-pressed="true"] { color: var(--text); border-bottom-color: var(--accent); }
+.filters .n { color: var(--faint); margin-left: 4px; font-variant-numeric: tabular-nums; }
+
+/* — shelves (one per category) — */
+.shelf { padding-block: 40px 8px; }
+.shelf-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
+.shelf-head h2 { margin: 0; font-size: 20px; font-weight: 500; }
+.shelf-head p { margin: 0; color: var(--faint); font-size: 13px; }
+
+.list { list-style: none; margin: 0; padding: 0; }
+.list li { border-top: 1px solid var(--rule); }
+.list li:last-child { border-bottom: 1px solid var(--rule); }
+
+.site {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 20px;
+  padding-block: 16px;
+}
+.site-name { font-weight: 500; font-size: 16px; }
+.site-domain { font-family: var(--font-mono); font-size: 12px; color: var(--accent-soft); white-space: nowrap; align-self: baseline; }
+.site-blurb { grid-column: 1 / -1; margin: 0; max-width: 62ch; color: var(--muted); font-size: 14px; }
+.site:hover .site-name { color: var(--accent-soft); }
+.site:hover .site-domain::after { content: " ↗"; }
+
+.empty { margin: 0; padding-block: 16px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); color: var(--faint); font-size: 14px; }
+
+/* — footer — */
+.site-footer {
+  display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  padding-block: 64px 40px;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--faint);
+}
+.site-footer a { color: var(--muted); }
+.site-footer a:hover { color: var(--accent); }
+
+@media (max-width: 520px) {
+  .intro { padding-block: 40px 28px; }
+  .intro h1 { font-size: 34px; }
+  .site { grid-template-columns: 1fr; }
+  .site-domain { order: 2; }
+  .site-blurb { order: 1; }
+}
