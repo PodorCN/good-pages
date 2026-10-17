@@ -1,8 +1,9 @@
 (function () {
   var cats = window.CATEGORIES || [];
   var sites = window.SITES || [];
-  var filters = document.getElementById("filters");
-  var shelves = document.getElementById("shelves");
+  var tabs = document.getElementById("tabs");
+  var panel = document.getElementById("panel");
+  var address = document.getElementById("address");
 
   function el(tag, cls, text) {
     var n = document.createElement(tag);
@@ -19,66 +20,80 @@
     return sites.filter(function (s) { return s.category === key; });
   }
 
-  // Shelves
-  cats.forEach(function (c) {
-    var shelf = el("section", "shelf");
-    shelf.id = c.key;
-    shelf.dataset.cat = c.key;
+  // Favicon with a letter fallback if it fails to load.
+  function icon(site) {
+    var box = el("span", "icon", site.name.charAt(0).toUpperCase());
+    var img = new Image();
+    img.alt = "";
+    img.onload = function () { if (img.naturalWidth > 1) { box.textContent = ""; box.appendChild(img); } };
+    img.src = "https://www.google.com/s2/favicons?sz=64&domain=" + encodeURIComponent(domain(site.url));
+    return box;
+  }
 
-    var head = el("div", "shelf-head");
-    head.appendChild(el("h2", null, c.label));
-    head.appendChild(el("p", null, c.note));
-    shelf.appendChild(head);
+  // One group per category inside the window.
+  cats.forEach(function (c) {
+    var g = el("section", "group");
+    g.dataset.cat = c.key;
+    g.style.setProperty("--c", "var(--" + c.key + ")");
+    g.appendChild(el("h2", "group-label", c.label));
 
     var items = inCat(c.key);
     if (!items.length) {
-      shelf.appendChild(el("p", "empty", "Nothing here yet."));
+      g.appendChild(el("p", "empty", "No tabs open here yet."));
     } else {
-      var ul = el("ul", "list");
+      var ul = el("ul", "rows");
       items.forEach(function (s) {
         var li = el("li");
-        var a = el("a", "site");
+        var a = el("a", "row");
         a.href = s.url;
         a.target = "_blank";
         a.rel = "noopener";
-        a.appendChild(el("span", "site-name", s.name));
-        a.appendChild(el("span", "site-domain", domain(s.url)));
-        a.appendChild(el("p", "site-blurb", s.blurb));
+        a.appendChild(icon(s));
+        a.appendChild(el("span", "name", s.name));
+        a.appendChild(el("span", "domain", domain(s.url) + " ↗"));
+        a.appendChild(el("p", "blurb", s.blurb));
         li.appendChild(a);
         ul.appendChild(li);
       });
-      shelf.appendChild(ul);
+      g.appendChild(ul);
     }
-    shelves.appendChild(shelf);
+    panel.appendChild(g);
   });
 
-  // Filter buttons
+  // Tabs
   var options = [{ key: "all", label: "All", n: sites.length }].concat(
     cats.map(function (c) { return { key: c.key, label: c.label, n: inCat(c.key).length }; })
   );
   var buttons = options.map(function (o) {
-    var b = el("button", null, o.label);
+    var b = el("button", "tab");
     b.type = "button";
+    b.setAttribute("role", "tab");
     b.dataset.key = o.key;
+    if (o.key !== "all") {
+      b.style.setProperty("--c", "var(--" + o.key + ")");
+      b.appendChild(el("span", "dot"));
+    }
+    b.appendChild(document.createTextNode(o.label));
     b.appendChild(el("span", "n", String(o.n)));
     b.addEventListener("click", function () {
       show(o.key);
       history.replaceState(null, "", o.key === "all" ? location.pathname : "#" + o.key);
     });
-    filters.appendChild(b);
+    tabs.appendChild(b);
     return b;
   });
 
   function show(key) {
-    buttons.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.key === key)); });
-    Array.prototype.forEach.call(shelves.children, function (s) {
-      s.hidden = key !== "all" && s.dataset.cat !== key;
+    buttons.forEach(function (b) { b.setAttribute("aria-selected", String(b.dataset.key === key)); });
+    Array.prototype.forEach.call(panel.children, function (g) {
+      g.hidden = key !== "all" && g.dataset.cat !== key;
     });
+    address.textContent = "podor.org/good-pages/" + (key === "all" ? "" : "#" + key);
   }
 
   var start = location.hash.slice(1);
   show(cats.some(function (c) { return c.key === start; }) ? start : "all");
 
   document.getElementById("count").textContent =
-    sites.length + (sites.length === 1 ? " site" : " sites");
+    sites.length + (sites.length === 1 ? " tab open" : " tabs open");
 })();

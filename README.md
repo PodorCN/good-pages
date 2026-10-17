@@ -1,6 +1,6 @@
-# Good Pages
+# Open Tabs
 
-A short list of websites worth keeping, served at <https://podor.org/good-pages/>.
+Websites worth keeping open, served at <https://podor.org/good-pages/>.
 
 ## Add a site
 
