@@ -3,7 +3,8 @@
 window.CATEGORIES = [
   { key: "knowledge",  label: "Knowledge",  note: "References and notes worth rereading." },
   { key: "simulation", label: "Simulation", note: "Games and sandboxes that teach by doing." },
-  { key: "news",       label: "News",       note: "Sources I check on purpose." }
+  { key: "news",       label: "News",       note: "Sources I check on purpose." },
+  { key: "tools",      label: "Tools",      note: "Live dashboards and utilities I keep open." }
 ];
 
 window.SITES = [
@@ -20,5 +21,12 @@ window.SITES = [
     category: "knowledge",
     blurb: "Short, focused memos on quant finance concepts for review and interview prep.",
     added: "2026-10-17"
+  },
+  {
+    name: "I \u2661 VOL",
+    url: "https://ilovevol.app/",
+    category: "tools",
+    blurb: "Free live SPX gamma exposure (GEX) by strike, with gamma flip, call/put walls, and charm and vanna exposure; NDX, RUT and VIX too.",
+    added: "2026-10-29"
   }
 ];
