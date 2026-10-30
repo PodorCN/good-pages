@@ -4,38 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Open Tabs · PodorM</title>
-<meta name="description" content="Websites worth keeping open, sorted into knowledge, simulation and news.">
+<meta name="description" content="Websites worth keeping open, each with one line on why.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<header class="top">
-  <a href="https://podor.org/" class="back">← podor.org</a>
-</header>
-
 <main class="page">
-  <section class="intro">
+  <a href="https://podor.org/" class="back">← podor.org</a>
+
+  <header class="intro">
     <h1>Open Tabs</h1>
-    <p>The websites I never close. Each one earned its tab, and each gets one line on why.</p>
-  </section>
+    <p>The websites I never close, each with one line on why.</p>
+  </header>
 
-  <div class="window">
-    <div id="tabs" class="tabs" role="tablist" aria-label="Categories"></div>
-    <div class="chrome">
-      <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-      <span id="address" class="address">podor.org/good-pages/</span>
-    </div>
-    <div id="panel" class="panel" role="tabpanel"></div>
-  </div>
+  <div id="list"></div>
+
+  <footer class="foot" id="count"></footer>
 </main>
-
-<footer class="foot page">
-  <a href="https://podor.org/">Back to podor.org</a>
-  <span id="count"></span>
-</footer>
 
 <script src="sites.js"></script>
 <script src="script.js"></script>
